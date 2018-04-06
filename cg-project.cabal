@@ -22,4 +22,6 @@ executable cg-project
                      , text
                      , vector
                      , bytestring
+                     , OpenGL
+                     , GLUT
                      -- , not-gloss
