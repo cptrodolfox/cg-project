@@ -24,4 +24,5 @@ executable cg-project
                      , bytestring
                      , OpenGL
                      , GLUT
+                     , hashmap
                      -- , not-gloss

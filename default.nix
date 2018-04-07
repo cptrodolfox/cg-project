@@ -1,5 +1,5 @@
-{ mkDerivation, base, bytestring, cassava, GLUT, OpenGL, stdenv
-, text, vector
+{ mkDerivation, base, bytestring, cassava, GLUT, hashmap, OpenGL
+, stdenv, text, vector
 }:
 mkDerivation {
   pname = "cg-project";
@@ -8,7 +8,7 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base bytestring cassava GLUT OpenGL text vector
+    base bytestring cassava GLUT hashmap OpenGL text vector
   ];
   homepage = "https://github.com/cptrodolfox/cg-project#readme";
   license = stdenv.lib.licenses.bsd3;
