@@ -12,7 +12,7 @@ data Plane =  PlaneX
            | PlaneY
            | PlaneZ
 
--- 2-D Face 
+-- 2-D Face
 data Face = Face { face_vertex1 :: !Point
                  , face_vertex2 :: !Point
                  , face_vertex3 :: !Point
@@ -76,4 +76,3 @@ main =  do
   let dist = distanceToPlane (space HM.! 1) PlaneX (snd subdivision)
   putStrLn $ show subdivision
   putStrLn $ show dist
-
