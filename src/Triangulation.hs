@@ -80,7 +80,16 @@ det2 (a1,a2) (b1,b2) = a1*b2 - a2*b1
 det3 :: Point -> Point -> Point -> Double
 det3 (a1,a2,a3) (b1,b2,b3) (c1,c2,c3) = a1*(det2 (b2,b3) (c2,c3)) - a2*(det2 (b1,b3) (c1,c3)) + a1*(det2 (b1,b2) (c1,c2))
 
+getX :: Point -> Point -> Point -> Double
+getX (x1, y1,_) (x2, y2,_) (x3, y3,_) = ( det (-x3^2+x1^2-y3^2+y1^2,-2*(y3-y1)) (-x2^2+x1^2-y2^2+y1^2,2*(y2-y1)) ) / ( det (-2*(x3-x1),-2*(y3-y1)) (-2*(x2-x1),-2*(y2-y1))
 
+
+getY :: Point -> Point -> Point -> Double
+getY (x1, y1,_) (x2, y2,_) (x3, y3,_) = ( det (-2*(x3-x1),-x3^2+x1^2-y3^2+y1^2) (-2*(x3-x2),-x2^2+x1^2-y2^2+y1^2) ) / ( det (-2*(x3-x1),-2*(y3-y1)) (-2*(x3-x2),-2*(y3-y2))
+
+
+getParameters :: Point -> Point -> Point -> (Double, Double)
+getParameters (x1, y1,_) (x2, y2,_) (x3, y3,_) =
 main :: IO ()
 main =  do
   let list = [(1, (2,4,5)), (2,(5,9,3)), (3,(1,5,4)), (4,(7,2,9)),(5, (14,5,6)), (6,(3,7,9)), (7,(4,8,5))] :: [(Integer, Point)]
