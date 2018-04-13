@@ -67,6 +67,12 @@ distanceToPlane (x,_,_) PlaneX alpha = abs (alpha - x)
 distanceToPlane (_,x,_) PlaneY alpha = abs (alpha - x)
 distanceToPlane (_,_,x) PlaneZ alpha = abs (alpha - x)
 
+subsPoints :: Point -> Point -> Point
+subsPoints (x1, y1, z1) (x2 y2 z2)= (x1-x2, y1-y2, z1-z2)
+
+addPoints :: Point -> Point -> Point
+addPoints (x1, y1, z1) (x2 y2 z2)= (x1+x2, y1+y2, z1+z2)
+
 
 main :: IO ()
 main =  do
