@@ -1,5 +1,4 @@
-{ mkDerivation, base, bytestring, cassava, GLUT, hashmap, OpenGL
-, stdenv, text, vector
+{ mkDerivation, base, bytestring, cassava, GLUT, hashmap, OpenGL, stdenv, text, vector
 }:
 mkDerivation {
   pname = "cg-project";

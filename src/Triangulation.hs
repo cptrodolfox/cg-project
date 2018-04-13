@@ -81,15 +81,48 @@ det3 :: Point -> Point -> Point -> Double
 det3 (a1,a2,a3) (b1,b2,b3) (c1,c2,c3) = a1*(det2 (b2,b3) (c2,c3)) - a2*(det2 (b1,b3) (c1,c3)) + a1*(det2 (b1,b2) (c1,c2))
 
 getX :: Point -> Point -> Point -> Double
-getX (x1, y1,_) (x2, y2,_) (x3, y3,_) = ( det (-x3^2+x1^2-y3^2+y1^2,-2*(y3-y1)) (-x2^2+x1^2-y2^2+y1^2,2*(y2-y1)) ) / ( det (-2*(x3-x1),-2*(y3-y1)) (-2*(x2-x1),-2*(y2-y1))
-
+getX (x1, y1,_) (x2, y2,_) (x3, y3,_) = det2 (numa1, numa2) (numb1, numb2) /  det2 (dena1, dena2) (denb1, denb2)
+  where numa1 = -x3^2+x1^2-y3^2+y1^2
+        numa2 = -2*(y3-y1)
+        numb1 = -x2^2+x1^2-y2^2+y1^2
+        numb2 = -2*(y2-y1)
+        dena1 = -2*(x3-x1)
+        dena2 = -2*(y3-y1)
+        denb1 = -2*(x2-x1)
+        denb2 = -2*(y2-y1)
 
 getY :: Point -> Point -> Point -> Double
-getY (x1, y1,_) (x2, y2,_) (x3, y3,_) = ( det (-2*(x3-x1),-x3^2+x1^2-y3^2+y1^2) (-2*(x3-x2),-x2^2+x1^2-y2^2+y1^2) ) / ( det (-2*(x3-x1),-2*(y3-y1)) (-2*(x3-x2),-2*(y3-y2))
+getY (x1, y1,_) (x2, y2,_) (x3, y3,_) =  det2 (numa1, numa2) (numb1, numb2) /  det2 (dena1, dena2) (denb1, denb2)
+  where numa1 = -2*(x3-x1)
+        numa2 = -x3^2+x1^2-y3^2+y1^2
+        numb1 = -2*(x2-x1)
+        numb2 = -x2^2+x1^2-y2^2+y1^2
+        dena1 = -2*(x3-x1)
+        dena2 = -2*(y3-y1)
+        denb1 = -2*(x2-x1)
+        denb2 = -2*(y2-y1)
+        
+getBeta :: Point -> Point -> Point -> Double
+getBeta (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = (det2 (x-x1, y-y1) (x2-x1, y2-y1)) / (det2 (x3-x1, y3-y1) (x2-x1, y2-y1))
+  where x = getX (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+        y = getY (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
 
+getAlpha :: Point -> Point -> Point -> Double
+getAlpha (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = ( x - x1 - beta * (x3-x1)) / (x2-x1)
+  where x = getX (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+        beta = getBeta (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
 
-getParameters :: Point -> Point -> Point -> (Double, Double)
-getParameters (x1, y1,_) (x2, y2,_) (x3, y3,_) =
+getZ :: Point -> Point -> Point -> Double
+getZ (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = z1 + alpha*(z2-z1) + beta*(z3-z1)
+  where alpha = getAlpha (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+        beta = getBeta (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+
+getCenter :: Point -> Point -> Point -> Point
+getCenter (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = (x, y, z)
+  where x = getX (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+        y = getY (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+        z = getZ (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+
 main :: IO ()
 main =  do
   let list = [(1, (2,4,5)), (2,(5,9,3)), (3,(1,5,4)), (4,(7,2,9)),(5, (14,5,6)), (6,(3,7,9)), (7,(4,8,5))] :: [(Integer, Point)]
