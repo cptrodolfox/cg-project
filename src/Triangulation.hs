@@ -68,10 +68,17 @@ distanceToPlane (_,x,_) PlaneY alpha = abs (alpha - x)
 distanceToPlane (_,_,x) PlaneZ alpha = abs (alpha - x)
 
 subsPoints :: Point -> Point -> Point
-subsPoints (x1, y1, z1) (x2 y2 z2)= (x1-x2, y1-y2, z1-z2)
+subsPoints (x1,y1,z1) (x2,y2,z2)= (x1-x2, y1-y2, z1-z2)
 
 addPoints :: Point -> Point -> Point
-addPoints (x1, y1, z1) (x2 y2 z2)= (x1+x2, y1+y2, z1+z2)
+addPoints (x1,y1,z1) (x2,y2,z2)= (x1+x2, y1+y2, z1+z2)
+
+det2 :: (Double, Double) -> (Double,Double) -> Double
+det2 (a1,a2) (b1,b2) = a1*b2 - a2*b1
+
+-- Each Point is a row of the matrix
+det3 :: Point -> Point -> Point -> Double
+det3 (a1,a2,a3) (b1,b2,b3) (c1,c2,c3) = a1*(det2 (b2,b3) (c2,c3)) - a2*(det2 (b1,b3) (c1,c3)) + a1*(det2 (b1,b2) (c1,c2))
 
 
 main :: IO ()
