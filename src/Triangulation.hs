@@ -123,6 +123,10 @@ getCenter (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = (x, y, z)
         y = getY (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
         z = getZ (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
 
+getRadius :: Point -> Point -> Point -> Double
+getRadius (x1, y1, z1) (x2, y2, z2) (x3, y3, z3) = sqrt $ (x1-x)^2 + (y1-y)^2 + (z1-z)^2
+  where (x, y, z) = getCenter (x1, y1, z1) (x2, y2, z2) (x3, y3, z3)
+
 main :: IO ()
 main =  do
   let list = [(1, (2,4,5)), (2,(5,9,3)), (3,(1,5,4)), (4,(7,2,9)),(5, (14,5,6)), (6,(3,7,9)), (7,(4,8,5))] :: [(Integer, Point)]
