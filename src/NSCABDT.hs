@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE BangPatterns #-}
 
 module NSCABDT where
 
@@ -45,6 +46,22 @@ criterionFunction edges p = let gmean = globalMean edges
                                 gstd = globalStd edges
                                 rmean = relativeMean edges p
                             in gmean + gstd * rmean
+
+-- |Median extracted from hstats package
+median :: (Fractional a, Ord a) => [a] -> a
+median x
+  | odd n = head $ drop (n `div` 2) x'
+  | even n = mean $ take 2 $ drop i x'
+  where
+    i = (length x' `div` 2) - 1
+    x' = sort x
+    n = length x
+
+-- |Numerically stable mean extracted from hstats package
+mean :: Fractional a => [a] -> a
+mean x = fst $ foldl' addElement (0, 0) x
+  where
+    addElement (!m, !n) x = (m + (x - m) / (n + 1), n + 1)
 
 medianlengthEdge :: (Floating a, Fractional a, Ord a) => [(Point a, Point a)] -> a
 medianlengthEdge edges = median [ lengthEdge  x | x <- edges ]
